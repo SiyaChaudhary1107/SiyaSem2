@@ -1,0 +1,482 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Amazon - Syllabus Project Portal</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body class="bg-gray-100 font-sans text-gray-900 antialiased min-h-screen flex flex-col">
+
+    <header class="sticky top-0 z-50">
+        <div class="bg-slate-900 text-white px-4 py-2 flex flex-wrap items-center justify-between gap-4">
+            <div class="flex items-center gap-2 cursor-pointer" onclick="navigate('home')">
+                <span class="font-extrabold text-2xl tracking-tight text-white">amazon<span class="text-amber-400 font-medium text-sm">.syllabus</span></span>
+            </div>
+
+            <div class="flex flex-1 max-w-2xl items-center relative">
+                <input type="text" id="global-search-input" placeholder="Search mock catalog items (e.g., Electronics, Shoes)..." 
+                       class="w-full px-4 py-2 rounded-l-md text-slate-900 outline-none focus:ring-2 focus:ring-amber-500 text-sm">
+                <button onclick="executeProductFilter()" class="bg-amber-400 hover:bg-amber-500 text-slate-900 px-5 py-2 rounded-r-md transition font-semibold text-sm">
+                    <i class="fa-solid fa-magnifying-glass"></i>
+                </button>
+            </div>
+
+            <nav class="flex items-center gap-6 text-sm font-medium">
+                <button onclick="navigate('home')" class="hover:text-amber-400 transition flex items-center gap-1">
+                    <i class="fa-solid fa-house"></i> Home
+                </button>
+                <button onclick="navigate('backend-hub')" class="hover:text-amber-400 transition flex items-center gap-1 text-cyan-400">
+                    <i class="fa-solid fa-server"></i> Spring Boot Dashboard
+                </button>
+                <button onclick="toggleCartModal()" class="relative bg-slate-800 hover:bg-slate-700 px-3 py-1.5 rounded-md border border-slate-700 transition">
+                    <i class="fa-solid fa-cart-shopping text-amber-400 text-base"></i> Cart
+                    <span id="cart-badge-count" class="absolute -top-2 -right-2 bg-amber-500 text-slate-900 text-xs font-bold rounded-full h-5 w-5 flex items-center justify-center shadow">0</span>
+                </button>
+            </nav>
+        </div>
+
+        <div class="bg-slate-800 text-white text-xs px-4 py-2 flex items-center gap-4 overflow-x-auto">
+            <span class="font-bold border border-white/20 px-2 py-0.5 rounded cursor-pointer flex items-center gap-1"><i class="fa-solid fa-bars"></i> All Categories</span>
+            <span class="hover:text-amber-400 cursor-pointer transition" onclick="quickFilter('Electronics')">Electronics</span>
+            <span class="hover:text-amber-400 cursor-pointer transition" onclick="quickFilter('Apparel')">Apparel</span>
+            <span class="hover:text-amber-400 cursor-pointer transition" onclick="quickFilter('Fitness')">Fitness</span>
+            <span class="ml-auto text-slate-400 font-mono hidden sm:inline">Syllabus Framework Environment: <span class="text-emerald-400">Stable</span></span>
+        </div>
+    </header>
+
+    <main class="flex-grow max-w-7xl w-full mx-auto p-4 sm:p-6 lg:p-8">
+        
+        <div id="view-home" class="view-panel block space-y-8">
+            <div class="relative bg-gradient-to-r from-indigo-950 via-slate-900 to-blue-950 rounded-2xl p-8 text-white overflow-hidden shadow-sm border border-slate-800">
+                <div class="max-w-xl relative z-10 space-y-3">
+                    <span class="bg-amber-400/20 text-amber-300 border border-amber-400/30 text-[10px] uppercase font-bold tracking-widest px-2.5 py-0.5 rounded-full">Unit 1-4 Complete Sandbox</span>
+                    <h2 class="text-3xl sm:text-4xl font-black tracking-tight leading-tight">Amazon E-Commerce Architecture Prototype</h2>
+                    <p class="text-slate-300 text-sm">This system demonstrates functional components spanning across client layout responsive design tokens up to backend microservice payload routing representations.</p>
+                    <div class="flex gap-2 pt-2">
+                        <button onclick="quickFilter('all')" class="bg-amber-400 hover:bg-amber-500 text-slate-950 text-xs font-bold px-4 py-2 rounded shadow transition">Explore Full Catalog</button>
+                        <button onclick="navigate('backend-hub')" class="bg-slate-800 hover:bg-slate-700 border border-slate-700 text-xs font-medium px-4 py-2 rounded transition">Review Java Controller Routes</button>
+                    </div>
+                </div>
+                <div class="absolute right-0 bottom-0 top-0 w-1/3 opacity-10 pointer-events-none hidden md:block">
+                    <i class="fa-solid fa-truck-fast text-[12rem] text-white absolute bottom-4 right-4"></i>
+                </div>
+            </div>
+
+            <div>
+                <div class="flex justify-between items-baseline mb-6 border-b border-gray-200 pb-3">
+                    <h3 class="text-xl font-bold tracking-tight text-gray-900 flex items-center gap-2">
+                        <i class="fa-solid fa-boxes-stacked text-amber-500"></i> Catalog Pipeline <span id="catalog-category-label" class="text-sm font-normal text-slate-500">(All Items)</span>
+                    </h3>
+                    <span class="text-xs text-gray-500 font-mono">Render Method: JS Array Map Engine</span>
+                </div>
+
+                <div id="product-display-grid" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+                    </div>
+            </div>
+        </div>
+
+        <div id="view-backend-hub" class="view-panel hidden space-y-6">
+            <div class="border-b border-gray-200 pb-4">
+                <h2 class="text-2xl font-extrabold text-slate-900 tracking-tight">Unit 4: Java Backend & API Service Dashboard</h2>
+                <p class="text-sm text-gray-500 mt-1">Simulated mapping of spring application endpoints, mapping REST controller models, and managing CRUD database pipelines natively.</p>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 font-mono text-xs">
+                <div class="bg-white border border-gray-200 p-4 rounded-xl flex items-center justify-between shadow-sm">
+                    <div>
+                        <span class="text-gray-400 block uppercase font-bold tracking-wider">Controller Module</span>
+                        <span class="text-sm font-bold font-sans text-slate-800">@RestController</span>
+                    </div>
+                    <i class="fa-solid fa-network-wired text-indigo-500 text-xl"></i>
+                </div>
+                <div class="bg-white border border-gray-200 p-4 rounded-xl flex items-center justify-between shadow-sm">
+                    <div>
+                        <span class="text-gray-400 block uppercase font-bold tracking-wider">Dependency State</span>
+                        <span class="text-sm font-bold font-sans text-emerald-600">Spring Initializer Verified</span>
+                    </div>
+                    <i class="fa-solid fa-circle-check text-emerald-500 text-xl"></i>
+                </div>
+                <div class="bg-white border border-gray-200 p-4 rounded-xl flex items-center justify-between shadow-sm">
+                    <div>
+                        <span class="text-gray-400 block uppercase font-bold tracking-wider">Memory Streams Engine</span>
+                        <span class="text-sm font-bold font-sans text-slate-800">Java Lambda Parsing</span>
+                    </div>
+                    <i class="fa-solid fa-bolt text-amber-500 text-xl"></i>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                <div class="bg-white border border-gray-200 rounded-xl p-5 shadow-sm space-y-4">
+                    <h4 class="text-base font-bold text-slate-900 border-b border-gray-100 pb-2 flex items-center gap-2">
+                        <i class="fa-solid fa-plus-circle text-cyan-600"></i> API Endpoint Input <span class="font-mono text-[10px] font-normal bg-blue-100 text-blue-800 px-1.5 py-0.2 rounded">POST</span>
+                    </h4>
+                    
+                    <div class="space-y-3 text-xs">
+                        <div>
+                            <label class="block font-bold text-gray-700 mb-1">Product Title String</label>
+                            <input type="text" id="api-input-title" placeholder="e.g., Mechanical Keyboard" class="w-full p-2 border border-gray-300 rounded focus:ring-1 focus:ring-cyan-500 outline-none">
+                        </div>
+                        <div>
+                            <label class="block font-bold text-gray-700 mb-1">Category Domain</label>
+                            <select id="api-input-category" class="w-full p-2 border border-gray-300 rounded focus:ring-1 focus:ring-cyan-500 outline-none">
+                                <option value="Electronics">Electronics</option>
+                                <option value="Apparel">Apparel</option>
+                                <option value="Fitness">Fitness</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block font-bold text-gray-700 mb-1">Double Value Price ($)</label>
+                            <input type="number" id="api-input-price" placeholder="99.99" class="w-full p-2 border border-gray-300 rounded focus:ring-1 focus:ring-cyan-500 outline-none">
+                        </div>
+                        <button onclick="executeBackendCrudCreate()" class="w-full bg-cyan-600 hover:bg-cyan-700 text-white font-bold py-2 rounded transition shadow-sm text-sm">
+                            Execute Repository Save (.save())
+                        </button>
+                    </div>
+                </div>
+
+                <div class="bg-slate-950 text-slate-200 rounded-xl p-5 shadow-md lg:col-span-2 flex flex-col justify-between">
+                    <div class="space-y-3">
+                        <div class="flex justify-between items-center border-b border-slate-800 pb-2">
+                            <h4 class="text-sm font-bold font-mono text-cyan-400 flex items-center gap-2">
+                                <i class="fa-solid fa-terminal animate-pulse"></i> Spring Boot JPA Console Output
+                            </h4>
+                            <button onclick="clearConsoleLogs()" class="text-[10px] font-mono border border-slate-800 px-2 py-0.5 rounded hover:bg-slate-900 transition text-slate-400">Clear Logs</button>
+                        </div>
+                        <div id="api-terminal-logs" class="font-mono text-[11px] space-y-1.5 max-h-[220px] overflow-y-auto pr-2">
+                            <p class="text-slate-500">[INFO] 2026-06-01 18:14:11 - Tomcat initialized on port(s): 8080 (http)</p>
+                            <p class="text-slate-500">[INFO] 2026-06-01 18:14:12 - H2 Memory DB Pool initialized connection route parameters.</p>
+                            <p class="text-emerald-400 font-semibold">[SPRING REST] GET request resolved for route mapping /api/v1/products - DataStream parsed successfully via Java Lambda.</p>
+                        </div>
+                    </div>
+                    <div class="pt-4 border-t border-slate-900 flex flex-wrap gap-2 text-[10px] font-mono text-slate-400">
+                        <span>Database Status: <strong class="text-emerald-400">Connected</strong></span>
+                        <span>•</span>
+                        <span>Auto-Configuration: <strong class="text-cyan-400">Active</strong></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </main>
+
+    <div id="cart-modal-container" class="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-xs hidden transition-all duration-300 flex justify-end">
+        <div class="bg-white w-full max-w-md h-full shadow-2xl p-6 flex flex-col justify-between overflow-y-auto">
+            <div>
+                <div class="flex justify-between items-center border-b border-gray-200 pb-4 mb-4">
+                    <h3 class="text-lg font-bold text-slate-900 flex items-center gap-2"><i class="fa-solid fa-bag-shopping text-amber-500"></i> Shopping Basket State</h3>
+                    <button onclick="toggleCartModal()" class="text-gray-400 hover:text-slate-900 text-xl"><i class="fa-solid fa-xmark"></i></button>
+                </div>
+                <div id="cart-items-wrapper" class="space-y-4 max-h-[60vh] overflow-y-auto pr-2">
+                    </div>
+            </div>
+
+            <div class="border-t border-gray-200 pt-4 mt-4 space-y-3">
+                <div class="flex justify-between font-bold text-slate-900 text-base">
+                    <span>Order Total Cost:</span>
+                    <span id="cart-total-label">$0.00</span>
+                </div>
+                <p class="text-[11px] text-gray-500 font-mono">React Lifecycle Engine Notice: Triggering execution clears parameters back to global application arrays.</p>
+                <button onclick="simulateAsynchronousCheckoutPipeline()" class="w-full bg-amber-400 hover:bg-amber-500 text-slate-900 font-bold py-2.5 rounded-lg text-center tracking-wide text-sm transition shadow-sm">
+                    Proceed to Simulated Checkout (Fetch/Async)
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <footer class="bg-slate-900 text-slate-400 text-xs border-t border-slate-800 py-6 mt-12">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-4">
+            <div class="space-y-1">
+                <p class="font-bold text-slate-300">Amazon Portal Prototype Syllabus Exercise Mapping System</p>
+                <p class="text-slate-500 text-[11px]">&copy; 2026 Academic Engineering Model Sandbox. Compiled in one index shell mapping parameters cleanly.</p>
+            </div>
+            <div class="flex gap-4 text-base">
+                <span class="hover:text-white cursor-pointer transition" title="Unit 1: Tailwind CSS Framework Active"><i class="fa-brands fa-css3-alt"></i></span>
+                <span class="hover:text-white cursor-pointer transition" title="Unit 2: Vanilla JavaScript Functions Active"><i class="fa-brands fa-js"></i></span>
+                <span class="hover:text-white cursor-pointer transition" title="Unit 3: Component State Engine Active"><i class="fa-brands fa-react"></i></span>
+                <span class="hover:text-white cursor-pointer transition" title="Unit 4: Java MVC System Structural Layer Active"><i class="fa-solid fa-database"></i></span>
+            </div>
+        </div>
+    </footer>
+
+
+    <script>
+        // ================= DATABASE / DATA ARRAY MODEL ARCHITECTURE STATE =================
+        // Mock product array representation corresponding to database records handled via Repository entities.
+        let databaseProducts = [
+            { id: 1, title: "Pro Wireless Gaming Headset", category: "Electronics", price: 129.99, image: "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=500&auto=format&fit=crop&q=60" },
+            { id: 2, title: "Smart Sports Watch Tracker", category: "Electronics", price: 199.50, image: "https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=500&auto=format&fit=crop&q=60" },
+            { id: 3, title: "Embroidered Athletic Running Shoes", category: "Fitness", price: 85.00, image: "https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=500&auto=format&fit=crop&q=60" },
+            { id: 4, title: "Minimalist Leather Backpack", category: "Apparel", price: 58.00, image: "https://images.unsplash.com/photo-1543163521-1bf539c55dd2?w=500&auto=format&fit=crop&q=60" },
+            { id: 5, title: "Ergonomic Mechanical Desktop Keyboard", category: "Electronics", price: 112.25, image: "https://images.unsplash.com/photo-1587829741301-dc798b83add3?w=500&auto=format&fit=crop&q=60" },
+            { id: 6, title: "Heavy Duty Dumbbell Set Weights", category: "Fitness", price: 140.00, image: "https://images.unsplash.com/photo-1638536532686-d610adfc8e5c?w=500&auto=format&fit=crop&q=60" }
+        ];
+
+        // Global Interactive Application States (Simulating Component state memory model)
+        let applicationCartState = JSON.parse(localStorage.getItem('amazon_project_cart')) || [];
+
+        // ================= APPLICATION WINDOW VIEW CONTROLLER ENGINE =================
+        function navigate(viewTargetId) {
+            // Hide all structural window instances wrapper collections 
+            document.querySelectorAll('.view-panel').forEach(panel => {
+                panel.classList.add('hidden');
+                panel.classList.remove('block');
+            });
+
+            // Re-render and expose targeted contextual container views
+            const targetView = document.getElementById(`view-${viewTargetId}`);
+            if (targetView) {
+                targetView.classList.remove('hidden');
+                targetView.classList.add('block');
+            }
+            appendTerminalLog(`[NAVIGATION] Screen route swapped view target component panel reference to: view-${viewTargetId}`, "text-cyan-400");
+        }
+
+        // ================= UNIT 2/3 CARDS TEMPLATE RENDERING MATRIX ENG =================
+        function renderCatalogDisplay(filteringTargetArray) {
+            const gridTargetContainer = document.getElementById('product-display-grid');
+            gridTargetContainer.innerHTML = ''; // Purge current existing inner tree nodes 
+
+            if(filteringTargetArray.length === 0) {
+                gridTargetContainer.innerHTML = `
+                    <div class="col-span-full py-12 text-center text-gray-400 font-mono text-sm border border-dashed border-gray-300 rounded-xl">
+                        <i class="fa-solid fa-triangle-exclamation text-xl mb-2 block"></i> No catalog item matches standard array filter criteria.
+                    </div>`;
+                return;
+            }
+
+            // High order looping array map variant implementation to render responsive grids (Unit 2 & 3 concept)
+            filteringTargetArray.forEach(product => {
+                const responsiveCardComponentHTML = `
+                    <div class="bg-white rounded-xl border border-gray-200 shadow-xs hover:shadow-md transition-all duration-300 p-4 flex flex-col justify-between group">
+                        <div class="space-y-3">
+                            <div class="w-full h-40 bg-gray-100 rounded-lg overflow-hidden relative">
+                                <img src="${product.image}" alt="${product.title}" class="w-full h-full object-cover group-hover:scale-105 transition duration-300">
+                                <span class="absolute top-2 left-2 bg-slate-900/80 backdrop-blur-xs text-white font-mono text-[9px] font-bold px-2 py-0.5 rounded uppercase tracking-wider">${product.category}</span>
+                            </div>
+                            <div>
+                                <h4 class="font-bold text-sm text-slate-900 line-clamp-2 min-h-[40px]">${product.title}</h4>
+                                <div class="flex items-center gap-1 text-amber-500 text-xs mt-1">
+                                    <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star-half-stroke"></i>
+                                    <span class="text-gray-400 font-mono text-[10px] ml-1">(4.5 Stars Verified)</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="mt-4 pt-3 border-t border-gray-100 flex items-center justify-between">
+                            <span class="text-base font-black text-slate-950 font-mono">$${product.price.toFixed(2)}</span>
+                            <button onclick="addItemToCartState(${product.id})" class="bg-slate-900 hover:bg-amber-400 text-white hover:text-slate-950 font-bold text-xs px-3 py-2 rounded-lg transition-all duration-200 shadow-sm flex items-center gap-1.5">
+                                <i class="fa-solid fa-cart-plus"></i> Add to Cart
+                            </button>
+                        </div>
+                    </div>`;
+                gridTargetContainer.insertAdjacentHTML('beforeend', responsiveCardComponentHTML);
+            });
+        }
+
+        // ================= UNIT 2/3 FILTERING CORE SEARCH LOGIC =================
+        function executeProductFilter() {
+            const rawSearchQuery = document.getElementById('global-search-input').value.toLowerCase().trim();
+            document.getElementById('catalog-category-label').innerText = `(Filtered by: "${rawSearchQuery}")`;
+            
+            // Javascript standard internal filtering evaluation processing matching string instances
+            const resolvedFilteredProducts = databaseProducts.filter(item => 
+                item.title.toLowerCase().includes(rawSearchQuery) || 
+                item.category.toLowerCase().includes(rawSearchQuery)
+            );
+            renderCatalogDisplay(resolvedFilteredProducts);
+        }
+
+        function quickFilter(categoryValue) {
+            document.getElementById('global-search-input').value = ''; // Flush keyword queries 
+            
+            if(categoryValue === 'all') {
+                document.getElementById('catalog-category-label').innerText = "(All Items)";
+                renderCatalogDisplay(databaseProducts);
+            } else {
+                document.getElementById('catalog-category-label').innerText = `(Category: ${categoryValue})`;
+                const itemsMatch = databaseProducts.filter(p => p.category === categoryValue);
+                renderCatalogDisplay(itemsMatch);
+            }
+            navigate('home');
+        }
+
+        // ================= UNIT 3 SHOPPING BASKET COUNTER & DATA LIFECYCLE HOOKS =================
+        function addItemToCartState(productIdTarget) {
+            const chosenItemEntity = databaseProducts.find(p => p.id === productIdTarget);
+            if (!chosenItemEntity) return;
+
+            // Analyze array pointers inside current application local storage cache elements 
+            const preExistingCartMatch = applicationCartState.find(entry => entry.product.id === productIdTarget);
+            
+            if (preExistingCartMatch) {
+                preExistingCartMatch.quantity += 1;
+            } else {
+                applicationCartState.push({ product: chosenItemEntity, quantity: 1 });
+            }
+
+            synchronizeStateAndInterfaceViews();
+            appendTerminalLog(`[STATE TRACKER] Item attached into context instance arrays. ID: ${productIdTarget} Title String mapping resolved.`, "text-amber-400");
+        }
+
+        function removeCartItemRow(productIdTarget) {
+            applicationCartState = applicationCartState.filter(entry => entry.product.id !== productIdTarget);
+            synchronizeStateAndInterfaceViews();
+            appendTerminalLog(`[STATE TRACKER] Item removed from active memory array mapping index target pointer ID: ${productIdTarget}`, "text-red-400");
+        }
+
+        function synchronizeStateAndInterfaceViews() {
+            // Persist parameters safely tracking against explicit Local Storage parameters 
+            localStorage.setItem('amazon_project_cart', JSON.stringify(applicationCartState));
+
+            // Recalculate computational layout elements counts using reduce processing routines
+            const aggregateItemUnitsCount = applicationCartState.reduce((sum, current) => sum + current.quantity, 0);
+            document.getElementById('cart-badge-count').innerText = aggregateItemUnitsCount;
+
+            renderCartModalLayoutTree();
+        }
+
+        function renderCartModalLayoutTree() {
+            const cartWrapperElement = document.getElementById('cart-items-wrapper');
+            const totalLabelElement = document.getElementById('cart-total-label');
+            cartWrapperElement.innerHTML = '';
+
+            if (applicationCartState.length === 0) {
+                cartWrapperElement.innerHTML = `
+                    <div class="py-12 text-center text-gray-400 font-mono text-xs space-y-2">
+                        <i class="fa-solid fa-basket-shopping text-3xl text-gray-300 block"></i>
+                        <p>Your shopping basket state returns empty.</p>
+                    </div>`;
+                totalLabelElement.innerText = "$0.00";
+                return;
+            }
+
+            let computedFinancialRunningSum = 0;
+
+            applicationCartState.forEach(entry => {
+                const combinedRowCost = entry.product.price * entry.quantity;
+                computedFinancialRunningSum += combinedRowCost;
+
+                const inlineRowComponentHTML = `
+                    <div class="flex items-center gap-3 bg-gray-50 p-3 rounded-lg border border-gray-100 font-sans text-xs">
+                        <img src="${entry.product.image}" class="w-12 h-12 rounded object-cover border border-gray-200">
+                        <div class="flex-grow min-w-0">
+                            <h5 class="font-bold text-slate-900 truncate">${entry.product.title}</h5>
+                            <p class="text-gray-500 font-mono mt-0.5">Quantity Count: ${entry.quantity} x $${entry.product.price.toFixed(2)}</p>
+                        </div>
+                        <div class="text-right flex flex-col justify-between items-end h-full">
+                            <span class="font-bold font-mono text-slate-900">$${combinedRowCost.toFixed(2)}</span>
+                            <button onclick="removeCartItemRow(${entry.product.id})" class="text-red-500 hover:text-red-700 font-semibold mt-1 text-[11px]" title="Drop index parameter row.">
+                                <i class="fa-solid fa-trash-can"></i>
+                            </button>
+                        </div>
+                    </div>`;
+                cartWrapperElement.insertAdjacentHTML('beforeend', inlineRowComponentHTML);
+            });
+
+            totalLabelElement.innerText = `$${computedFinancialRunningSum.toFixed(2)}`;
+        }
+
+        function toggleCartModal() {
+            const containerNode = document.getElementById('cart-modal-container');
+            containerNode.classList.toggle('hidden');
+        }
+
+        // ================= UNIT 2 ASYNCHRONOUS SIMULATION PARSERS (PROMISES) =================
+        function simulateAsynchronousCheckoutPipeline() {
+            if(applicationCartState.length === 0) {
+                alert("Cannot initialize data serialization pipelines over an empty basket matrix.");
+                return;
+            }
+
+            const totalLabel = document.getElementById('cart-total-label').innerText;
+            appendTerminalLog(`[ASYNC ENGINE] Instantiating multi-thread Promise chain calculations mapping payment transaction structures totaling: ${totalLabel}`, "text-amber-400 font-bold");
+            
+            toggleCartModal(); // Shut modal framework views close
+
+            // Synthetic Promise Implementation wrapper reflecting Async / Await Fetch network simulations
+            new Promise((resolve, reject) => {
+                let connectionLatencyCounter = 0;
+                const incrementalIntervalTimer = setInterval(() => {
+                    connectionLatencyCounter += 25;
+                    appendTerminalLog(`[ASYNC RUNTIME] Serializing JSON metadata stream validation packets... ${connectionLatencyCounter}% compiled.`, "text-slate-400");
+                    if(connectionLatencyCounter >= 100) {
+                        clearInterval(incrementalIntervalTimer);
+                        resolve({ httpStatus: 200, confirmationToken: "TXN_AMZN_" + Math.floor(Math.random() * 900000 + 100000) });
+                    }
+                }, 400);
+            })
+            .then(payloadResponse => {
+                appendTerminalLog(`[SPRING CONTROLLER SUCCESS] Server resolved network pipeline safely. HTTP STATUS CODE: ${payloadResponse.httpStatus} Token: ${payloadResponse.confirmationToken}`, "text-emerald-400 font-black");
+                alert(`Order Processed Successfully!\nTransaction Token Instance Reference: ${payloadResponse.confirmationToken}\n\nCart state parameters successfully cleared down.`);
+                
+                // Flush local application memory blocks back to clear state definitions
+                applicationCartState = [];
+                synchronizeStateAndInterfaceViews();
+            })
+            .catch(errorState => {
+                appendTerminalLog(`[NETWORK PIPELINE FAILURE] Serialization runtime failed tracking errors back to connection configurations.`, "text-red-500");
+            });
+        }
+
+        // ================= UNIT 4 SIMULATED BACKEND REPOSITORY CONTROL LAYER =================
+        function executeBackendCrudCreate() {
+            const titleValue = document.getElementById('api-input-title').value.trim();
+            const categoryValue = document.getElementById('api-input-category').value;
+            const priceValue = parseFloat(document.getElementById('api-input-price').value);
+
+            // Inputs Validation matching validation annotation frameworks inside Java Entity schemas
+            if(!titleValue || isNaN(priceValue) || priceValue <= 0) {
+                appendTerminalLog("[VALIDATION ERROR] Blocked creation process execution. Object data elements did not match entity verification constraints.", "text-red-400 font-bold");
+                alert("Please declare accurate object parameters inside creation node inputs.");
+                return;
+            }
+
+            // Mocking entity model structures 
+            const simulatedNewEntityProduct = {
+                id: databaseProducts.length + 1,
+                title: titleValue,
+                category: categoryValue,
+                price: priceValue,
+                image: "https://images.unsplash.com/photo-1531403009284-440f080d1e12?w=500&auto=format&fit=crop&q=60" // Default generic fallback engineering placeholder 
+            };
+
+            // Push item data natively down into active tracking array blocks (Emulating .save() execution behavior inside Hibernate frameworks)
+            databaseProducts.unshift(simulatedNewEntityProduct);
+            
+            // Append visual operations tracker history back to user 
+            appendTerminalLog(`[SPRING BOOT MVC] @PostMapping resolved route /api/v1/products. Entity instance generated inside volatile persistence context arrays. ID allocation: ${simulatedNewEntityProduct.id}`, "text-emerald-400 font-semibold");
+            
+            // Flush input fields
+            document.getElementById('api-input-title').value = '';
+            document.getElementById('api-input-price').value = '';
+
+            // Update user view models safely
+            renderCatalogDisplay(databaseProducts);
+            alert(`Java Object Repository Record Committed Natively:\n${simulatedNewEntityProduct.title} added into application memory structures.`);
+        }
+
+        function appendTerminalLog(logMessageString, tailwindColorTokenClass = "text-slate-300") {
+            const consoleBox = document.getElementById('api-terminal-logs');
+            const targetTimestampToken = new Date().toISOString().slice(11, 19);
+            
+            const structuredLogLineHTML = `<p class="${tailwindColorTokenClass}"><span class="text-slate-600 font-normal">[LOG ${targetTimestampToken}]</span> ${logMessageString}</p>`;
+            consoleBox.insertAdjacentHTML('beforeend', structuredLogLineHTML);
+            
+            // Auto scroll container frameworks back down smoothly 
+            consoleBox.scrollTop = consoleBox.scrollHeight;
+        }
+
+        function clearConsoleLogs() {
+            document.getElementById('api-terminal-logs').innerHTML = `<p class="text-slate-500">[SYSTEM] Terminal logs cleared out manually by system supervisor operations actions.</p>`;
+        }
+
+        // ================= LIFECYCLE INITIALIZATION MAP HOOK =================
+        window.addEventListener('DOMContentLoaded', () => {
+            renderCatalogDisplay(databaseProducts);
+            synchronizeStateAndInterfaceViews();
+            appendTerminalLog("[BOOT ENGINE] Full application views architecture mounted safely inside single DOM file wrapper frame successfully.", "text-indigo-400");
+        });
+    </script>
+</body>
+</html>

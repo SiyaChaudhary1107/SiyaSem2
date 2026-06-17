@@ -1,43 +1,40 @@
-let heading = document.getElementById("mainHeading");
-let paragraph = document.getElementById("paragraph");
-let input = document.getElementById("userInput");
 
-let fontSize = 16;
+const heading = document.getElementById("mainHead");
+const description = document.getElementById("description");
+const input = document.getElementById("userInput");
+const container = document.querySelector(".container");
 
-// Change heading text (onclick using addEventListener)
-document.getElementById("changeTextBtn").addEventListener("click", function () {
-    if (input.value !== "") {
-        heading.innerHTML = input.value;
+document.getElementById("btnChangeText").addEventListener("click", () => {
+    if (input.value.trim() !== "") {
+        heading.innerText = input.value;
     }
 });
 
-// Change background color
-document.getElementById("bgColorBtn").onclick = function () {
-    document.body.style.backgroundColor ="red";
-       
-};
-
-// Increase font size
-document.getElementById("fontSizeBtn").addEventListener("click", function () {
-    fontSize += 2;
-    paragraph.style.fontSize = fontSize + "px";
+document.getElementById("btnColor").addEventListener("click", () => {
+    const randomColor = `hsl(${Math.random() * 360}, 70%, 80%)`;
+    document.body.style.background = randomColor;
 });
 
-// Show/Hide paragraph
-document.getElementById("toggleBtn").addEventListener("click", function () {
-    if (paragraph.style.display === "none") {
-        paragraph.style.display = "block";
-    } else {
-        paragraph.style.display = "none";
-    }
+
+let currentSize = 32;
+document.getElementById("btnFontSize").addEventListener("click", () => {
+    currentSize += 5;
+    heading.style.fontSize = currentSize + "px";
 });
 
-// Reset page
-document.getElementById("resetBtn").addEventListener("click", function () {
-    heading.innerHTML = "Welcome to JavaScript Lab";
-    paragraph.style.display = "block";
-    paragraph.style.fontSize = "16px";
-    document.body.style.backgroundColor = "#f4f4f4";
-    input.value = "";
-    fontSize = 16;
+
+document.getElementById("btnToggle").addEventListener("click", () => {
+    description.style.display = (description.style.display === "none") ? "block" : "none";
+});
+
+
+
+// 7. Reset Page
+document.getElementById("btnReset").addEventListener("click", () => {
+    location.reload(); // Simplest way to reset everything
+});
+
+// 8. Event: Change event on input
+input.addEventListener("change", () => {
+    console.log("Input field updated to: " + input.value);
 });
